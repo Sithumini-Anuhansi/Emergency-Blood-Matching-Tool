@@ -1,6 +1,7 @@
 package graph;
 
 import model.Location;
+import model.RouteResult;
 
 import java.util.*;
 
@@ -8,13 +9,14 @@ public class Dijkstra {
 
     private Graph graph;
 
+
     public Dijkstra(Graph graph) {
         this.graph = graph;
     }
 
 
-    /*
-     * Finds shortest distance from source
+    /**
+     * Find shortest distance from source
      * to all locations
      */
     public Map<Location, Double> shortestDistances(Location source) {
@@ -29,7 +31,7 @@ public class Dijkstra {
                 );
 
 
-        // Initialize all distances as infinity
+        // Initialize all distances
         for (Location location : graph.getLocations()) {
 
             distances.put(
@@ -40,7 +42,7 @@ public class Dijkstra {
         }
 
 
-        // Distance to starting point = 0
+        // Starting location
         distances.put(source, 0.0);
 
 
@@ -68,7 +70,6 @@ public class Dijkstra {
 
 
 
-            // Check all connected locations
             for (Edge edge :
                     graph.getNeighbors(currentLocation)) {
 
@@ -77,14 +78,12 @@ public class Dijkstra {
                         edge.getDestination();
 
 
-
                 double newDistance =
                         currentDistance
                         + edge.getDistance();
 
 
 
-                // Found shorter path
                 if(newDistance <
                         distances.get(neighbour)) {
 
@@ -115,9 +114,10 @@ public class Dijkstra {
 
 
 
-    /*
-     * Finds shortest route between
-     * two locations
+
+    /**
+     * Find shortest path between
+     * source and destination
      */
     public List<Location> getShortestPath(
             Location source,
@@ -127,6 +127,7 @@ public class Dijkstra {
 
         Map<Location, Double> distances =
                 new HashMap<>();
+
 
         Map<Location, Location> previous =
                 new HashMap<>();
@@ -151,6 +152,7 @@ public class Dijkstra {
                     Double.MAX_VALUE
             );
 
+
             previous.put(
                     location,
                     null
@@ -161,6 +163,7 @@ public class Dijkstra {
 
 
         distances.put(source,0.0);
+
 
 
         queue.add(
@@ -185,7 +188,9 @@ public class Dijkstra {
 
 
             if(currentLocation.equals(destination)) {
+
                 break;
+
             }
 
 
@@ -201,7 +206,8 @@ public class Dijkstra {
 
                 double newDistance =
                         distances.get(currentLocation)
-                        + edge.getDistance();
+                        +
+                        edge.getDistance();
 
 
 
@@ -246,8 +252,9 @@ public class Dijkstra {
 
 
 
-    /*
-     * Reconstruct route
+
+    /**
+     * Build route from previous nodes
      */
     private List<Location> buildPath(
             Map<Location, Location> previous,
@@ -266,7 +273,9 @@ public class Dijkstra {
 
         while(current != null) {
 
+
             path.add(current);
+
 
             current =
                     previous.get(current);
@@ -278,7 +287,6 @@ public class Dijkstra {
         Collections.reverse(path);
 
 
-
         return path;
 
     }
@@ -286,9 +294,8 @@ public class Dijkstra {
 
 
 
-    /*
-     * Get shortest distance between
-     * two locations
+    /**
+     * Return shortest distance
      */
     public double getShortestDistance(
             Location source,
@@ -307,7 +314,82 @@ public class Dijkstra {
 
 
 
-    /*
+    /**
+     * Return complete route information
+     */
+    public RouteResult getRouteResult(
+            Location source,
+            Location destination
+    ) {
+
+
+        List<Location> path =
+                getShortestPath(
+                        source,
+                        destination
+                );
+
+
+        double distance =
+                getShortestDistance(
+                        source,
+                        destination
+                );
+
+
+        int travelTime = 0;
+
+
+
+        for(int i = 0;
+            i < path.size()-1;
+            i++) {
+
+
+
+            Location current =
+                    path.get(i);
+
+
+            Location next =
+                    path.get(i+1);
+
+
+
+            for(Edge edge :
+                    graph.getNeighbors(current)) {
+
+
+
+                if(edge.getDestination()
+                        .equals(next)) {
+
+
+                    travelTime +=
+                            edge.getTravelTime();
+
+                    break;
+
+                }
+
+            }
+
+        }
+
+
+
+        return new RouteResult(
+                path,
+                distance,
+                travelTime
+        );
+
+    }
+
+
+
+
+    /**
      * Helper class for Priority Queue
      */
     private static class LocationDistance {
@@ -325,7 +407,6 @@ public class Dijkstra {
         ) {
 
             this.location = location;
-
             this.distance = distance;
 
         }
