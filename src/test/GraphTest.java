@@ -3,9 +3,11 @@ package test;
 import graph.Dijkstra;
 import graph.Graph;
 import model.Location;
+import model.RouteResult;
 
 import java.util.List;
 import java.util.Map;
+
 
 public class GraphTest {
 
@@ -13,9 +15,7 @@ public class GraphTest {
     public static void main(String[] args) {
 
 
-        /*
-         * Create Graph
-         */
+
         Graph graph = new Graph();
 
 
@@ -23,6 +23,7 @@ public class GraphTest {
         /*
          * Create Locations
          */
+
         Location hospital =
                 new Location(
                         "L001",
@@ -41,7 +42,7 @@ public class GraphTest {
                 );
 
 
-        Location junction =
+        Location gampaha =
                 new Location(
                         "L003",
                         "Gampaha Junction",
@@ -69,30 +70,27 @@ public class GraphTest {
 
 
 
+
         /*
-         * Add locations
+         * Add locations to graph
          */
+
         graph.addLocation(hospital);
+
         graph.addLocation(bloodBank);
-        graph.addLocation(junction);
+
+        graph.addLocation(gampaha);
+
         graph.addLocation(donor1);
+
         graph.addLocation(donor2);
+
 
 
 
         /*
          * Create road network
-         *
-         * Hospital
-         *      |
-         * Blood Bank
-         *      |
-         * Junction
-         *    /     \
-         * Donor1  Donor2
-         *
          */
-
 
         graph.addRoad(
                 hospital,
@@ -104,14 +102,14 @@ public class GraphTest {
 
         graph.addRoad(
                 bloodBank,
-                junction,
+                gampaha,
                 25,
                 35
         );
 
 
         graph.addRoad(
-                junction,
+                gampaha,
                 donor1,
                 15,
                 20
@@ -119,7 +117,7 @@ public class GraphTest {
 
 
         graph.addRoad(
-                junction,
+                gampaha,
                 donor2,
                 30,
                 40
@@ -135,23 +133,29 @@ public class GraphTest {
 
 
 
+
         /*
          * Display Graph
          */
+
         System.out.println(
-                "===== GRAPH NETWORK ====="
+                "\n===== BLOOD NETWORK GRAPH ====="
         );
+
 
         graph.displayGraph();
 
 
 
+
+
         /*
-         * Test Dijkstra
+         * Dijkstra Testing
          */
 
         Dijkstra dijkstra =
                 new Dijkstra(graph);
+
 
 
 
@@ -160,8 +164,10 @@ public class GraphTest {
         );
 
 
-        Map<Location, Double> distances =
-                dijkstra.shortestDistances(hospital);
+        Map<Location,Double> distances =
+                dijkstra.shortestDistances(
+                        hospital
+                );
 
 
 
@@ -183,13 +189,16 @@ public class GraphTest {
 
 
 
+
+
         /*
          * Test shortest route
          */
 
         System.out.println(
-                "\n===== SHORTEST ROUTE ====="
+                "\n===== SHORTEST ROUTE TO DONOR ====="
         );
+
 
 
         List<Location> route =
@@ -197,6 +206,7 @@ public class GraphTest {
                         hospital,
                         donor1
                 );
+
 
 
         for(Location location :
@@ -213,25 +223,25 @@ public class GraphTest {
 
 
 
+
         /*
-         * Test shortest distance
+         * Test Route Result
          */
 
-        double distance =
-                dijkstra.getShortestDistance(
+        System.out.println(
+                "\n===== ROUTE RESULT ====="
+        );
+
+
+
+        RouteResult result =
+                dijkstra.getRouteResult(
                         hospital,
                         donor1
                 );
 
 
-        System.out.println(
-                "\nTotal Distance : "
-                +
-                distance
-                +
-                " km"
-        );
-
+        result.displayRoute();
 
     }
 
