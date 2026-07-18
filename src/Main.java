@@ -1,52 +1,243 @@
-import graph.Dijkstra;
-import graph.Graph;
-import model.Location;
+import controller.EmergencyController;
 
-import java.util.Map;
+import model.EmergencyRequest;
+
+import system.EmergencyBloodSystem;
+
+import ui.ConsoleMenu;
+
+
 
 public class Main {
 
+
     public static void main(String[] args) {
 
-        Graph graph = new Graph();
 
-        Location colombo =
-                new Location("L001","Colombo",0,0);
 
-        Location negombo =
-                new Location("L002","Negombo",0,0);
+        /*
+         * Start System
+         */
 
-        Location gampaha =
-                new Location("L003","Gampaha",0,0);
+        EmergencyBloodSystem system =
+                new EmergencyBloodSystem();
 
-        Location chilaw =
-                new Location("L004","Chilaw",0,0);
 
-        graph.addLocation(colombo);
-        graph.addLocation(negombo);
-        graph.addLocation(gampaha);
-        graph.addLocation(chilaw);
 
-        graph.addRoad(colombo,negombo,35,45);
-        graph.addRoad(colombo,gampaha,28,35);
-        graph.addRoad(negombo,gampaha,22,30);
-        graph.addRoad(negombo,chilaw,40,55);
+        EmergencyController controller =
+                system.getController();
 
-        Dijkstra dijkstra = new Dijkstra(graph);
 
-        Map<Location,Double> distances =
-                dijkstra.shortestDistances(colombo);
 
-        System.out.println("Shortest distances from Colombo\n");
+        ConsoleMenu menu =
+                new ConsoleMenu();
 
-        for(Location location : distances.keySet()){
 
-            System.out.println(
-                    location.getLocationName()
-                    + " : "
-                    + distances.get(location)
-                    + " km"
-            );
+
+
+
+        EmergencyRequest currentRequest = null;
+
+
+
+        boolean running = true;
+
+
+
+        while(running){
+
+
+
+            int option =
+                    menu.showMenu();
+
+
+
+
+            switch(option){
+
+
+
+                case 1:
+
+
+
+                    System.out.println(
+                            "\n--- Create Blood Request ---"
+                    );
+
+
+
+                    String bloodGroup =
+                            menu.inputString(
+                                    "Blood Group: "
+                            );
+
+
+
+                    int quantity =
+                            menu.inputInt(
+                                    "Quantity: "
+                            );
+
+
+
+                    currentRequest =
+                            controller.createRequest(
+                                    "REQ001",
+                                    "H001",
+                                    bloodGroup,
+                                    quantity
+                            );
+
+
+
+                    if(currentRequest != null){
+
+
+                        System.out.println(
+                                "\nRequest Created"
+                        );
+
+
+                        System.out.println(
+                                currentRequest
+                        );
+
+
+
+                        controller.checkBloodBanks(
+                                currentRequest
+                        );
+
+
+
+                        controller.findDonors(
+                                currentRequest
+                        );
+
+                    }
+
+
+
+                    break;
+
+
+
+
+
+
+                case 2:
+
+
+
+                    if(currentRequest != null){
+
+
+                        controller.checkBloodBanks(
+                                currentRequest
+                        );
+
+
+                    }
+                    else{
+
+
+                        System.out.println(
+                                "Create request first"
+                        );
+
+
+                    }
+
+
+                    break;
+
+                case 3:
+
+                    if(currentRequest != null){
+
+
+                        controller.findDonors(
+                                currentRequest
+                        );
+
+
+                    }
+                    else{
+
+
+                        System.out.println(
+                                "Create request first"
+                        );
+
+
+                    }
+
+
+
+                    break;
+
+
+                case 4:
+
+                    if(currentRequest != null){
+
+                        String donorId =
+                                menu.inputString(
+                                        "Donor ID: "
+                                );
+
+
+
+                        controller.acceptDonor(
+                                donorId,
+                                currentRequest
+                        );
+
+
+
+                        System.out.println(
+                                currentRequest.getStatus()
+                        );
+
+
+                    }
+
+                    break;
+
+                case 5:
+
+                    if(currentRequest != null){
+
+                        String donorId =
+                                menu.inputString(
+                                        "Donor ID: "
+                                );
+
+                        controller.rejectDonor(
+                                donorId,
+                                currentRequest
+                        );
+                        System.out.println(
+                                currentRequest.getStatus()
+                        )
+                    }
+                    break;
+
+                case 6:
+
+                    running = false;
+                    System.out.println(
+                            "System Closed"
+                    );
+                    break;
+                default:
+
+                    System.out.println(
+                            "Invalid Option"
+                    );
+            }
 
         }
 
