@@ -1,0 +1,17 @@
+# Compiled output
+/bin/
+*.class
+
+# IDE specific files (for Eclipse or VS Code)
+.classpath
+.project
+.settings/
+.vscode/
+
+# For IntelliJ IDEA
+.idea/
+*.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db

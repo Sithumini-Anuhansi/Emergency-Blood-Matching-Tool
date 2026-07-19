@@ -1,354 +1,133 @@
 package system;
 
-import graph.Graph;
-import graph.Dijkstra;
-
-import model.*;
-
-import service.*;
-
 import controller.EmergencyController;
+import graph.Dijkstra;
+import graph.Graph;
+import model.Location;
+import service.BloodBankService;
+import service.DonorMatchingService;
+import service.DonorService;
+import service.HospitalService;
+import service.RequestQueueService;
+import util.DataLoader;
 
-
+import java.util.Map;
 
 public class EmergencyBloodSystem {
 
-
-
-    private Graph graph;
-
-
-    private Dijkstra dijkstra;
-
-
-
     private HospitalService hospitalService;
-
 
     private BloodBankService bloodBankService;
 
-
     private DonorService donorService;
 
+    private Graph graph;
 
-    private DonorMatchingService matchingService;
-
-
-    private RequestQueueService queueService;
-
+    private Dijkstra dijkstra;
 
     private EmergencyController controller;
 
+    private Map<String, Location> locations;
 
-
-
-
-
-
-    public EmergencyBloodSystem(){
-
+    public EmergencyBloodSystem() {
 
         initializeSystem();
 
-
     }
 
+    /*
+     * Initialize entire system
+     */
+    private void initializeSystem() {
 
-
-
-
-
-
-
-    private void initializeSystem(){
-
-
-
-        /*
-         * Create Graph
-         */
-
-        graph =
-                new Graph();
-
-
-
-
-        /*
-         * Create Locations
-         */
-
-        Location hospitalLocation =
-                new Location(
-                        "L001",
-                        "Colombo General Hospital",
-                        6.9271,
-                        79.8612
-                );
-
-
-
-        Location bloodBankLocation =
-                new Location(
-                        "L002",
-                        "Colombo Blood Bank",
-                        6.9147,
-                        79.8737
-                );
-
-
-
-        Location donorLocation1 =
-                new Location(
-                        "L003",
-                        "Donor Area 1",
-                        7.0000,
-                        79.9000
-                );
-
-
-
-        Location donorLocation2 =
-                new Location(
-                        "L004",
-                        "Donor Area 2",
-                        7.0500,
-                        79.9500
-                );
-
-
-
-
-
-        /*
-         * Add locations to graph
-         */
-
-        graph.addLocation(
-                hospitalLocation
-        );
-
-
-        graph.addLocation(
-                bloodBankLocation
-        );
-
-
-        graph.addLocation(
-                donorLocation1
-        );
-
-
-        graph.addLocation(
-                donorLocation2
-        );
-
-
-
-
-
-
-        /*
-         * Create Roads
-         */
-
-        graph.addRoad(
-                hospitalLocation,
-                bloodBankLocation,
-                5,
-                10
-        );
-
-
-
-        graph.addRoad(
-                hospitalLocation,
-                donorLocation1,
-                20,
-                25
-        );
-
-
-
-        graph.addRoad(
-                hospitalLocation,
-                donorLocation2,
-                30,
-                40
-        );
-
-
-
-
-
-        /*
-         * Initialize Dijkstra
-         */
-
-        dijkstra =
-                new Dijkstra(
-                        graph
-                );
-
-
-
-
-
-
+        System.out.println("======================================");
+        System.out.println(" Emergency Blood Route Finder Tool");
+        System.out.println(" Initializing System...");
+        System.out.println("======================================");
 
         /*
          * Create Services
          */
+        hospitalService = new HospitalService();
 
-        hospitalService =
-                new HospitalService();
+        bloodBankService = new BloodBankService();
 
-
-
-        bloodBankService =
-                new BloodBankService();
-
-
-
-        donorService =
-                new DonorService();
-
-
-
-
-
-
-
+        donorService = new DonorService();
 
         /*
-         * Add Hospital
+         * Create Graph
          */
+        graph = new Graph();
 
-        Hospital hospital =
-                new Hospital(
-                        "H001",
-                        "Colombo General Hospital",
-                        hospitalLocation
+        /*
+         * Load Locations
+         */
+        locations =
+                DataLoader.loadLocations(
+                        "data/locations.csv",
+                        graph
                 );
 
-
-
-        hospitalService.addHospital(
-                hospital
+        /*
+         * Load Roads
+         */
+        DataLoader.loadRoads(
+                "data/roads.csv",
+                graph,
+                locations
         );
-
-
-
-
-
-
-
 
         /*
-         * Add Blood Bank
+         * Load Hospitals
          */
-
-        BloodBank bloodBank =
-                new BloodBank(
-                        "B001",
-                        "Colombo Blood Bank",
-                        bloodBankLocation
-                );
-
-
-
-        bloodBankService.addBloodBank(
-                bloodBank
+        DataLoader.loadHospitals(
+                "data/hospitals.csv",
+                hospitalService,
+                locations
         );
-
-
 
         /*
-         * Add sample blood
+         * Load Blood Banks
          */
-
-        bloodBankService.addStock(
-                "Colombo Blood Bank",
-                "A+",
-                10
+        DataLoader.loadBloodBanks(
+                "data/bloodbanks.csv",
+                bloodBankService,
+                locations
         );
-
-
-
-
-
-
 
         /*
-         * Add Donors
+         * Load Donors
          */
-
-        Donor donor1 =
-                new Donor(
-                        "D001",
-                        "John",
-                        "O+",
-                        25,
-                        "0771111111",
-                        donorLocation1
-                );
-
-
-
-        Donor donor2 =
-                new Donor(
-                        "D002",
-                        "Anne",
-                        "O+",
-                        28,
-                        "0772222222",
-                        donorLocation2
-                );
-
-
-
-        donorService.addDonor(
-                donor1
+        DataLoader.loadDonors(
+                "data/donors.csv",
+                donorService,
+                locations
         );
-
-
-        donorService.addDonor(
-                donor2
-        );
-
-
-
-
-
-
-
 
         /*
-         * Create Matching System
+         * Create Dijkstra
          */
+        dijkstra =
+                new Dijkstra(graph);
 
-        matchingService =
+        /*
+         * Create Donor Matching Service
+         */
+        DonorMatchingService matchingService =
                 new DonorMatchingService(
                         donorService,
                         dijkstra
                 );
 
-
-
-
-
-        queueService =
+        /*
+         * Create Request Queue
+         */
+        RequestQueueService queueService =
                 new RequestQueueService();
-
-
-
-
-
 
         /*
          * Create Controller
          */
-
         controller =
                 new EmergencyController(
                         hospitalService,
@@ -358,44 +137,102 @@ public class EmergencyBloodSystem {
                         queueService
                 );
 
+        /*
+         * Display Summary
+         */
+        System.out.println();
+        System.out.println("System Loaded Successfully!");
+        System.out.println("--------------------------------------");
+        System.out.println(
+                "Locations    : "
+                        + graph.getNumberOfLocations()
+        );
+
+        System.out.println(
+                "Hospitals    : "
+                        + hospitalService
+                        .getAllHospitals()
+                        .size()
+        );
+
+        System.out.println(
+                "Blood Banks  : "
+                        + bloodBankService
+                        .getAllBloodBanks()
+                        .size()
+        );
+
+        System.out.println(
+                "Donors       : "
+                        + donorService
+                        .getAllDonors()
+                        .size()
+        );
+
+        System.out.println("--------------------------------------");
 
     }
 
-
-
-
-
-
-
-
-    public EmergencyController getController(){
+    /*
+     * Get Controller
+     */
+    public EmergencyController getController() {
 
         return controller;
 
     }
 
+    /*
+     * Get Graph
+     */
+    public Graph getGraph() {
 
+        return graph;
 
+    }
 
-    public HospitalService getHospitalService(){
+    /*
+     * Get Dijkstra
+     */
+    public Dijkstra getDijkstra() {
+
+        return dijkstra;
+
+    }
+
+    /*
+     * Get Hospital Service
+     */
+    public HospitalService getHospitalService() {
 
         return hospitalService;
 
     }
 
+    /*
+     * Get Blood Bank Service
+     */
+    public BloodBankService getBloodBankService() {
 
+        return bloodBankService;
 
-    public DonorService getDonorService(){
+    }
+
+    /*
+     * Get Donor Service
+     */
+    public DonorService getDonorService() {
 
         return donorService;
 
     }
 
+    /*
+     * Get Locations
+     */
+    public Map<String, Location> getLocations() {
 
-
-    public BloodBankService getBloodBankService(){
-
-        return bloodBankService;
+        return locations;
 
     }
 
