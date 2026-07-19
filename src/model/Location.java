@@ -2,45 +2,40 @@ package model;
 
 import java.util.Objects;
 
-public class Location {
-
+public class Location 
+{
     private String locationId;
     private String locationName;
     private double latitude;
     private double longitude;
 
-    public Location(String locationId, String locationName,
-                    double latitude, double longitude) {
-
+    public Location(String locationId, String locationName, double latitude, double longitude) 
+    {
         this.locationId = locationId;
         this.locationName = locationName;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public String getLocationId() {
-        return locationId;
-    }
+    public String getLocationId() 
+    { return locationId; }
 
-    public String getLocationName() {
-        return locationName;
-    }
+    public String getLocationName() 
+    { return locationName; }    
 
-    public double getLatitude() {
-        return latitude;
-    }
+    public double getLatitude() 
+    { return latitude; }
 
-    public double getLongitude() {
-        return longitude;
-    }
+    public double getLongitude() 
+    { return longitude; }
 
     @Override
-    public String toString() {
-        return locationName;
-    }
+    public String toString() 
+    { return locationName; }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o) 
+    {
 
         if (this == o)
             return true;
@@ -54,8 +49,8 @@ public class Location {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode() 
+    {
         return Objects.hash(locationId);
     }
-
 }
