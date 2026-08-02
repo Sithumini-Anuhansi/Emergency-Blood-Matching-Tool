@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand: blood-services red, with supporting neutrals and status colors -->
+    <color name="brand_red">#C62828</color>
+    <color name="brand_red_dark">#8E0000</color>
+    <color name="brand_red_light">#FF5F52</color>
+    <color name="brand_on_red">#FFFFFF</color>
+
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F5F0EF</color>
+    <color name="on_surface">#201A19</color>
+    <color name="on_surface_variant">#534341</color>
+    <color name="outline">#857370</color>
+
+    <color name="status_success">#2E7D32</color>
+    <color name="status_success_bg">#E6F4EA</color>
+    <color name="status_warning">#B25E00</color>
+    <color name="status_warning_bg">#FDECD2</color>
+    <color name="status_error">#C62828</color>
+    <color name="status_error_bg">#FCE8E6</color>
+    <color name="status_neutral_bg">#EDEDED</color>
+
+    <color name="chip_bg">#FBE9E7</color>
+    <color name="chip_text">#8E0000</color>
+</resources>

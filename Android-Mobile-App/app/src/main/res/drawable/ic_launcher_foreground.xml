@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Simple blood-drop mark, centered within the adaptive-icon safe zone -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,24 C54,24 34,52 34,68 C34,79.04 43.06,88 54,88 C64.94,88 74,79.04 74,68 C74,52 54,24 54,24 Z" />
+    <path
+        android:fillColor="#FFCDD2"
+        android:fillAlpha="0.55"
+        android:pathData="M46,66 C46,73 50,78 56,79 C51,80.5 45,77 43,71 C41.5,66.8 42.5,62 45,58.5 C44,61 45,64 46,66 Z" />
+</vector>
