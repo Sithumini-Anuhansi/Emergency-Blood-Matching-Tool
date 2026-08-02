@@ -64,54 +64,15 @@ Emergency-Blood-Network/
 
 ## 🚀 Project Evolution
 
-```text
-Problem Identification
-
-&#x20;       │
-
-&#x20;       ▼
-
-Research \& Literature Review
-
-&#x20;       │
-
-&#x20;       ▼
-
-Graph Data Structure Design
-
-&#x20;       │
-
-&#x20;       ▼
-
-Phase 1
-
-Java Console Application
-
-&#x20;       │
-
-&#x20;       ▼
-
-Testing \& Validation
-
-&#x20;       │
-
-&#x20;       ▼
-
-Phase 2
-
-Android Mobile Application
-
-&#x20;       │
-
-&#x20;       ▼
-
-Enhanced Features
-
-&#x20;       │
-
-&#x20;       ▼
-
-Final Emergency Blood Network
+```mermaid
+graph TD
+    A[Problem Identification] --> B[Research & Literature Review]
+    B --> C[Graph Data Structure Design]
+    C --> D[Phase 1: Java Console Application]
+    D --> E[Testing & Validation]
+    E --> F[Phase 2: Android Mobile Application]
+    F --> G[Enhanced Features]
+    G --> H[Final Emergency Blood Network]
 ```
 
 ---
