@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Donor Portal"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#1976D2"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Donor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <Spinner
+            android:id="@+id/spnDonor"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Available to Donate"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp" />
+
+            <Switch
+                android:id="@+id/switchAvailability"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnViewRequests"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="View Pending Requests"
+            android:backgroundTint="#1976D2"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Donor Request ID"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etRequestId"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="e.g. DR1"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnAccept"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Accept Request"
+            android:backgroundTint="#388E3C"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnReject"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Reject Request"
+            android:backgroundTint="#F57C00"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/txtResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#333"
+            android:padding="12dp"
+            android:background="#FFFFFF"
+            android:layout_marginBottom="12dp" />
+
+        <LinearLayout
+            android:id="@+id/listContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+</ScrollView>
