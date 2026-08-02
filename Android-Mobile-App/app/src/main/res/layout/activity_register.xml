@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register As"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#C62828"
+            android:layout_marginBottom="16dp" />
+
+        <RadioGroup
+            android:id="@+id/rgRole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+
+            <RadioButton
+                android:id="@+id/rbHospital"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Hospital" />
+
+            <RadioButton
+                android:id="@+id/rbDonor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Donor" />
+
+            <RadioButton
+                android:id="@+id/rbBloodBank"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Blood Bank" />
+        </RadioGroup>
+
+        <!-- Hospital form -->
+        <LinearLayout
+            android:id="@+id/layoutHospital"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <EditText android:id="@+id/etHospName"   android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Hospital Name"  android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etHospLocation" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Location (City)" android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etHospPhone"  android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Phone"          android:inputType="phone" android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etHospEmail"  android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Email"          android:inputType="textEmailAddress" android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etHospUser"   android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Username"       android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etHospPass"   android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Password"       android:inputType="textPassword" android:layout_marginBottom="12dp" />
+        </LinearLayout>
+
+        <!-- Donor form -->
+        <LinearLayout
+            android:id="@+id/layoutDonor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <EditText android:id="@+id/etDonorName"     android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Full Name"    android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etDonorAge"      android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Age (18–65)"  android:inputType="number" android:layout_marginBottom="12dp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Blood Group" android:textSize="14sp" android:textColor="#757575" />
+            <Spinner  android:id="@+id/spnBloodGroup"   android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etDonorDistrict" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="District/City" android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etDonorWeight"   android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Weight (kg)"  android:inputType="numberDecimal" android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etDonorHemo"     android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Hemoglobin"   android:inputType="numberDecimal" android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etDonorPhone"    android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Phone"        android:inputType="phone" android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etDonorUser"     android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Username"     android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etDonorPass"     android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Password"     android:inputType="textPassword" android:layout_marginBottom="12dp" />
+        </LinearLayout>
+
+        <!-- Blood Bank form -->
+        <LinearLayout
+            android:id="@+id/layoutBloodBank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <EditText android:id="@+id/etBankName"     android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Blood Bank Name" android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etBankLocation" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Location (City)" android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etBankPhone"    android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Phone"           android:inputType="phone" android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etBankUser"     android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Username"        android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etBankPass"     android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Password"        android:inputType="textPassword" android:layout_marginBottom="12dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:backgroundTint="#C62828"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="16dp"
+            android:padding="14dp"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</ScrollView>
