@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#FAFAFA">
+
+        <!-- Toolbar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="#4A148C"
+            android:paddingStart="8dp"
+            android:paddingEnd="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnMenu"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:text="="
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:background="@android:color/transparent"
+                android:textColor="#FFFFFF"
+                android:padding="0dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="4dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Admin Panel"
+                    android:textColor="#FFFFFF" android:textSize="17sp" android:textStyle="bold"/>
+                <TextView android:id="@+id/tvSectionTitle"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Dashboard"
+                    android:textColor="#E1BEE7" android:textSize="12sp"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/tvNotifBadge"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Notif"
+                android:textSize="11sp"
+                android:background="@android:color/transparent"
+                android:textColor="#E1BEE7"/>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Dashboard stats -->
+                <LinearLayout
+                    android:id="@+id/layoutDashboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:layout_marginBottom="10dp">
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="80dp"
+                            android:layout_weight="1" android:orientation="vertical"
+                            android:background="#4A148C" android:gravity="center"
+                            android:layout_marginEnd="5dp">
+                            <TextView android:id="@+id/tvStatUsers"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="0" android:textColor="#FFFFFF"
+                                android:textSize="26sp" android:textStyle="bold"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Users" android:textColor="#E1BEE7" android:textSize="11sp"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="80dp"
+                            android:layout_weight="1" android:orientation="vertical"
+                            android:background="#C62828" android:gravity="center"
+                            android:layout_marginStart="5dp">
+                            <TextView android:id="@+id/tvStatPending"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="0" android:textColor="#FFFFFF"
+                                android:textSize="26sp" android:textStyle="bold"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Pending" android:textColor="#FFCDD2" android:textSize="11sp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:layout_marginBottom="20dp">
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="80dp"
+                            android:layout_weight="1" android:orientation="vertical"
+                            android:background="#1565C0" android:gravity="center"
+                            android:layout_marginEnd="5dp">
+                            <TextView android:id="@+id/tvStatRequests"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="0" android:textColor="#FFFFFF"
+                                android:textSize="26sp" android:textStyle="bold"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Requests" android:textColor="#BBDEFB" android:textSize="11sp"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="80dp"
+                            android:layout_weight="1" android:orientation="vertical"
+                            android:background="#2E7D32" android:gravity="center"
+                            android:layout_marginStart="5dp">
+                            <TextView android:id="@+id/tvStatStock"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="0" android:textColor="#FFFFFF"
+                                android:textSize="26sp" android:textStyle="bold"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Blood Units" android:textColor="#C8E6C9" android:textSize="11sp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Result panel -->
+                <LinearLayout
+                    android:id="@+id/layoutResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView android:id="@+id/txtResult"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:textSize="15sp" android:textStyle="bold"
+                        android:layout_marginBottom="12dp"/>
+
+                    <LinearLayout android:id="@+id/listContainer"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
+
+                    <Button android:id="@+id/btnBackToDashboard"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="Back to Dashboard"
+                        android:backgroundTint="#757575" android:textColor="#FFFFFF"
+                        android:layout_marginTop="16dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- Drawer -->
+    <LinearLayout
+        android:id="@+id/navDrawer"
+        android:layout_width="260dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:elevation="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="#4A148C" android:padding="20dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Administrator"
+                android:textColor="#FFFFFF" android:textSize="15sp" android:textStyle="bold"/>
+        </LinearLayout>
+
+        <Button android:id="@+id/navDashboard"
+            style="@style/DrawerItemStyle" android:text="Dashboard"/>
+        <Button android:id="@+id/btnAllUsers"
+            style="@style/DrawerItemStyle" android:text="All Users"/>
+        <Button android:id="@+id/btnPendingUsers"
+            style="@style/DrawerItemStyle" android:text="Pending Approval"/>
+        <Button android:id="@+id/btnDonors"
+            style="@style/DrawerItemStyle" android:text="Donors"/>
+        <Button android:id="@+id/btnHospitals"
+            style="@style/DrawerItemStyle" android:text="Hospitals"/>
+        <Button android:id="@+id/btnBloodBanks"
+            style="@style/DrawerItemStyle" android:text="Blood Banks"/>
+        <Button android:id="@+id/btnRequests"
+            style="@style/DrawerItemStyle" android:text="Requests"/>
+        <Button android:id="@+id/btnReports"
+            style="@style/DrawerItemStyle" android:text="Reports"/>
+        <Button android:id="@+id/btnNotifications"
+            style="@style/DrawerItemStyle" android:text="Notifications"/>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:background="#E0E0E0" android:layout_marginVertical="4dp"/>
+
+        <Button android:id="@+id/btnLogout"
+            style="@style/DrawerItemStyle" android:text="Logout" android:textColor="#C62828"/>
+    </LinearLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>
