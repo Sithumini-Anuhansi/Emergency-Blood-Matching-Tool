@@ -1,4 +1,4 @@
-# 🩸 Emergency Blood Network - Blood Matching Tool
+# 🩸 Emergency Blood Network
 
 ![Emergency Blood Network Logo](diagrams/logo.jpg)
 
@@ -58,12 +58,13 @@ Emergency-Blood-Network/
 │
 ├── .gitignore
 └── README.md
+```
 
 ---
 
-# 🚀 Project Evolution
+## 🚀 Project Evolution
 
-
+```text
 Problem Identification
 
 &#x20;       │
@@ -111,10 +112,11 @@ Enhanced Features
 &#x20;       ▼
 
 Final Emergency Blood Network
+```
 
 ---
 
-# 🖥️ Phase 1 – Console Application
+## 🖥️ Phase 1 – Console Application
 
 The first phase focused on implementing the core algorithms and data structures.
 
@@ -140,13 +142,13 @@ The first phase focused on implementing the core algorithms and data structures.
 
 ---
 
-# 📱 Phase 2 – Android Application
+## 📱 Phase 2 – Android Application
 
 The second phase enhanced the prototype by introducing a graphical mobile application with role-based access and improved usability.
 
 ### Features
 
-### Authentication
+#### Authentication
 
 - User Registration
 
@@ -154,7 +156,7 @@ The second phase enhanced the prototype by introducing a graphical mobile applic
 
 - Role-based access
 
-### Hospital Module
+#### Hospital Module
 
 - Emergency blood requests
 
@@ -162,19 +164,19 @@ The second phase enhanced the prototype by introducing a graphical mobile applic
 
 - Status tracking
 
-### Donor Module
+#### Donor Module
 
 - Donor profile management
 
 - Availability updates
 
-### Blood Bank Module
+#### Blood Bank Module
 
 - Blood stock management
 
 - Inventory updates
 
-### Matching Module
+#### Matching Module
 
 - Blood compatibility checking
 
@@ -184,7 +186,7 @@ The second phase enhanced the prototype by introducing a graphical mobile applic
 
 - Intelligent donor ranking
 
-### Notifications
+#### Notifications
 
 - Emergency alerts
 
@@ -194,13 +196,13 @@ The second phase enhanced the prototype by introducing a graphical mobile applic
 
 ---
 
-# 🧩 Data Structure Used
+## 🧩 Data Structure Used
 
-## Graph
+### Graph
 
 The project is based on the **Graph** data structure.
 
-### Vertices
+#### Vertices
 
 - Hospitals
 
@@ -208,13 +210,13 @@ The project is based on the **Graph** data structure.
 
 - Blood Banks
 
-### Edges
+#### Edges
 
 - Roads connecting locations
 
 - Weighted using travel distance
 
-### Algorithm
+#### Algorithm
 
 - Dijkstra's Shortest Path Algorithm
 
@@ -222,9 +224,9 @@ The graph enables the application to determine the nearest compatible donor whil
 
 ---
 
-# ⚙️ Technologies Used
+## ⚙️ Technologies Used
 
-## Console Application
+### Console Application
 
 - Java
 
@@ -236,7 +238,7 @@ The graph enables the application to determine the nearest compatible donor whil
 
 - CSV File Handling
 
-## Android Application
+### Android Application
 
 - Java
 
@@ -252,7 +254,7 @@ The graph enables the application to determine the nearest compatible donor whil
 
 ---
 
-# 🌟 Key Features
+## 🌟 Key Features
 
 - Emergency blood request management
 
@@ -272,7 +274,7 @@ The graph enables the application to determine the nearest compatible donor whil
 
 ---
 
-# 💡 Future Enhancements
+## 💡 Future Enhancements
 
 - Firebase Authentication
 
@@ -293,7 +295,7 @@ The graph enables the application to determine the nearest compatible donor whil
 
 ---
 
-# 📸 Screenshots
+## 📸 Screenshots
 
 Application screenshots are available in:
 
@@ -302,7 +304,7 @@ Documents/Screenshots/
 
 ---
 
-# 📚 Academic Context
+## 📚 Academic Context
 
 This project was developed for the **Data Structures** module.
 
@@ -324,7 +326,7 @@ Assessment requirements included:
 
 ---
 
-# 🔮 Future Roadmap
+## 🔮 Future Roadmap
 
 - Web Dashboard
 
@@ -342,7 +344,7 @@ Assessment requirements included:
 
 ---
 
-# 📄 License
+## 📄 License
 
 This project was developed for educational purposes as part of a university coursework submission.
 
