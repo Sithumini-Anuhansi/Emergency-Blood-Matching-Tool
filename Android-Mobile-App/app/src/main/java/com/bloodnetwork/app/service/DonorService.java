@@ -20,10 +20,12 @@ public class DonorService {
 
     public DonorService(Context context) {
         this.context = context;
+        loadPersistedUpdates();
     }
 
     public void addDonor(Donor donor) {
         donors.put(donor.getId(), donor);
+        saveUpdates();
     }
 
     public void loadPersistedUpdates() {
@@ -37,10 +39,15 @@ public class DonorService {
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject o = arr.getJSONObject(i);
                 String id = o.getString("id");
-                Donor d = donors.get(id);
-                if (d != null) {
-                    d.setAvailable(o.getBoolean("available"));
-                }
+                String name = o.getString("name");
+                String bloodGroup = o.getString("bloodGroup");
+                String locationId = o.getString("locationId");
+                String phone = o.getString("phone");
+                int age = o.getInt("age");
+                boolean available = o.getBoolean("available");
+
+                Donor d = new Donor(id, name, bloodGroup, locationId, phone, age, available);
+                donors.put(id, d);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,6 +60,11 @@ public class DonorService {
             for (Donor d : donors.values()) {
                 JSONObject o = new JSONObject();
                 o.put("id", d.getId());
+                o.put("name", d.getName());
+                o.put("bloodGroup", d.getBloodGroup());
+                o.put("locationId", d.getLocationId());
+                o.put("phone", d.getPhone());
+                o.put("age", d.getAge());
                 o.put("available", d.isAvailable());
                 arr.put(o);
             }

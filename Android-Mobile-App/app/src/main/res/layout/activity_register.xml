@@ -78,7 +78,7 @@
             <Spinner  android:id="@+id/spnBloodGroup"   android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" />
             <EditText android:id="@+id/etDonorDistrict" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="District/City" android:layout_marginBottom="12dp" />
             <EditText android:id="@+id/etDonorWeight"   android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Weight (kg)"  android:inputType="numberDecimal" android:layout_marginBottom="12dp" />
-            <EditText android:id="@+id/etDonorHemo"     android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Hemoglobin"   android:inputType="numberDecimal" android:layout_marginBottom="12dp" />
+            <EditText android:id="@+id/etDonorHemo"     android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Hemoglobin (g/dL)"   android:inputType="numberDecimal" android:layout_marginBottom="12dp" />
             <EditText android:id="@+id/etDonorPhone"    android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Phone"        android:inputType="phone" android:layout_marginBottom="12dp" />
             <EditText android:id="@+id/etDonorUser"     android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Username"     android:layout_marginBottom="12dp" />
             <EditText android:id="@+id/etDonorPass"     android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Password"     android:inputType="textPassword" android:layout_marginBottom="12dp" />
@@ -109,6 +109,17 @@
             android:layout_marginTop="16dp"
             android:padding="14dp"
             android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvBackToLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have an account? Login here"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:textColor="#C62828"
+            android:clickable="true"
+            android:focusable="true" />
 
     </LinearLayout>
 </ScrollView>

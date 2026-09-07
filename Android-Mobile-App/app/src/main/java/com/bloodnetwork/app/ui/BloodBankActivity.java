@@ -59,10 +59,14 @@ public class BloodBankActivity extends AppCompatActivity {
             return;
         }
 
-        if (bankId != null && !bankId.isEmpty()) currentBank = controller.getBloodBank(bankId);
+        if (bankId != null && !bankId.isEmpty()) {
+            currentBank = controller.getBloodBank(bankId);
+        }
+        
         if (currentBank == null) {
-            List<BloodBank> all = controller.getAllBloodBanks();
-            if (!all.isEmpty()) { currentBank = all.get(0); bankId = currentBank.getId(); }
+            Toast.makeText(this, "Bank data not found", Toast.LENGTH_LONG).show();
+            finish();
+            return;
         }
 
         drawerLayout     = findViewById(R.id.drawerLayout);
@@ -359,7 +363,7 @@ public class BloodBankActivity extends AppCompatActivity {
                         Toast.makeText(this, "Not enough stock", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    controller.reduceStock(bankId, bg, qty);
+                    controller.reduceStock(bankId, bg, qty, "Manual reduction");
                     Toast.makeText(this, qty + " units removed", Toast.LENGTH_SHORT).show();
                 }
                 int updated = currentBank.getStock(bg);
@@ -377,17 +381,58 @@ public class BloodBankActivity extends AppCompatActivity {
     // ── Other screens ──────────────────────────────────────────────────────
 
     private void showTransactions() {
-        StringBuilder sb = new StringBuilder();
+        tvSectionTitle.setText("Stock Transactions");
+        txtResult.setText("Transaction History");
+        listContainer.removeAllViews();
+        
         List<StockTransaction> transactions = controller.getTransactionsForBank(bankId);
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault());
+        
         if (transactions.isEmpty()) {
-            sb.append("No transactions yet.");
+            TextView tv = new TextView(this);
+            tv.setText("No transactions yet.");
+            tv.setPadding(16, 12, 16, 12);
+            listContainer.addView(tv);
         } else {
-            for (StockTransaction t : transactions)
-                sb.append(t.getType()).append("  ")
-                  .append(t.getQuantity()).append(" units  ")
-                  .append(t.getBloodGroup()).append("\n");
+            // Show latest first
+            for (int i = transactions.size() - 1; i >= 0; i--) {
+                StockTransaction t = transactions.get(i);
+                
+                LinearLayout card = new LinearLayout(this);
+                card.setOrientation(LinearLayout.VERTICAL);
+                card.setPadding(24, 16, 24, 16);
+                card.setBackgroundResource(R.drawable.card_bg);
+                LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                p.setMargins(0, 0, 0, 12);
+                card.setLayoutParams(p);
+
+                TextView tvTitle = new TextView(this);
+                String typePrefix = "ISSUE".equals(t.getType()) ? "📤 Issued: " : "📥 Added: ";
+                tvTitle.setText(typePrefix + t.getBloodGroup() + " (x" + t.getQuantity() + ")");
+                tvTitle.setTypeface(null, android.graphics.Typeface.BOLD);
+                tvTitle.setTextColor("ISSUE".equals(t.getType()) ? 0xFFC62828 : 0xFF2E7D32);
+                card.addView(tvTitle);
+
+                TextView tvTarget = new TextView(this);
+                tvTarget.setText("Target: " + (t.getTargetName() != null ? t.getTargetName() : "N/A"));
+                tvTarget.setTextSize(13);
+                card.addView(tvTarget);
+
+                TextView tvTime = new TextView(this);
+                tvTime.setText(sdf.format(new Date(t.getTimestamp())));
+                tvTime.setTextSize(11);
+                tvTime.setTextColor(0xFF757575);
+                tvTime.setPadding(0, 4, 0, 0);
+                card.addView(tvTime);
+
+                listContainer.addView(card);
+            }
         }
-        showTextResult("Transactions", sb.toString());
+        
+        layoutResult.setVisibility(View.VISIBLE);
+        layoutDashboard.setVisibility(View.GONE);
+        layoutRequests.setVisibility(View.GONE);
     }
 
     private void goToLatestNotificationTarget() {

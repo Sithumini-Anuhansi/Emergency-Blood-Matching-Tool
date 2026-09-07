@@ -53,7 +53,7 @@ Emergency-Blood-Network/
 ├── diagrams/
 │   ├── logo.jpg
 │   ├── workflow.png
-│   ├── graph.png
+│   ├── graph.jpeg
 │   └── architecture.png
 │
 ├── .gitignore

@@ -6,14 +6,16 @@ public class StockTransaction {
     private String bloodGroup;
     private int quantity;
     private String type; // "ADD" or "ISSUE"
+    private String targetName; // e.g., Hospital name or "Stock Arrival"
     private long timestamp;
 
-    public StockTransaction(String id, String bloodBankId, String bloodGroup, int quantity, String type) {
+    public StockTransaction(String id, String bloodBankId, String bloodGroup, int quantity, String type, String targetName) {
         this.id = id;
         this.bloodBankId = bloodBankId;
         this.bloodGroup = bloodGroup;
         this.quantity = quantity;
         this.type = type;
+        this.targetName = targetName;
         this.timestamp = System.currentTimeMillis();
     }
 
@@ -22,10 +24,11 @@ public class StockTransaction {
     public String getBloodGroup() { return bloodGroup; }
     public int getQuantity() { return quantity; }
     public String getType() { return type; }
+    public String getTargetName() { return targetName; }
     public long getTimestamp() { return timestamp; }
 
     @Override
     public String toString() {
-        return type + " " + quantity + " units of " + bloodGroup + " @ " + bloodBankId;
+        return type + " " + quantity + " units of " + bloodGroup + (targetName != null ? " to/from " + targetName : "");
     }
 }

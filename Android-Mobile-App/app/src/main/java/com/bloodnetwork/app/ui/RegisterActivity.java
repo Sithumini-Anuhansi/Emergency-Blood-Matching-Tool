@@ -42,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
     // Blood bank fields
     private EditText etBankName, etBankLocation, etBankPhone, etBankUser, etBankPass;
     private Button btnRegister;
+    private android.widget.TextView tvBackToLogin;
 
     private AuthService authService;
     private HospitalService hospitalService;
@@ -97,6 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
         etBankPass     = findViewById(R.id.etBankPass);
 
         btnRegister = findViewById(R.id.btnRegister);
+        tvBackToLogin = findViewById(R.id.tvBackToLogin);
 
         spnBloodGroup.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, BLOOD_GROUPS));
@@ -105,6 +107,10 @@ public class RegisterActivity extends AppCompatActivity {
         updateVisibility(rgRole.getCheckedRadioButtonId());
 
         btnRegister.setOnClickListener(v -> register());
+        tvBackToLogin.setOnClickListener(v -> {
+            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            finish();
+        });
     }
 
     private void updateVisibility(int checkedId) {
@@ -127,6 +133,24 @@ public class RegisterActivity extends AppCompatActivity {
         else                                    registerBloodBank();
     }
 
+    private String getOrAddLocationId(String locName) {
+        if (locName == null || locName.trim().isEmpty()) return "L001";
+        
+        // Try to find existing
+        String existingId = findLocationId(locName);
+        if (existingId != null && !existingId.equals("L001")) {
+             return existingId;
+        }
+
+        // If not found in hardcoded list or graph, add new
+        if (system != null && system.getController() != null) {
+            com.bloodnetwork.app.model.Location newLoc = system.getController().addNewLocation(locName);
+            if (newLoc != null) return newLoc.getId();
+        }
+        
+        return "L001";
+    }
+
     private void registerHospital() {
         String name = etHospName.getText().toString().trim();
         String loc  = etHospLocation.getText().toString().trim();
@@ -138,8 +162,8 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        String hospId = "H" + (hospitalService.getAllHospitals().size() + 100);
-        String locId  = findLocationId(loc);
+        String hospId = "H" + (hospitalService.getAllHospitals().size() + 101);
+        String locId  = getOrAddLocationId(loc);
         hospitalService.addHospital(new Hospital(hospId, name, locId));
 
         User u = authService.register(user, pass, UserRole.HOSPITAL, hospId);
@@ -177,8 +201,8 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        String donorId = "D" + (donorService.getAllDonors().size() + 1);
-        String locId   = findLocationId(district);
+        String donorId = "D" + (donorService.getAllDonors().size() + 101);
+        String locId   = getOrAddLocationId(district);
         donorService.addDonor(new Donor(donorId, name, bg, locId, phone, age, true));
 
         User u = authService.register(user, pass, UserRole.DONOR, donorId);
@@ -201,8 +225,8 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        String bankId = "BB" + (bloodBankService.getAllBloodBanks().size() + 100);
-        String locId  = findLocationId(loc);
+        String bankId = "BB" + (bloodBankService.getAllBloodBanks().size() + 101);
+        String locId  = getOrAddLocationId(loc);
         bloodBankService.addBloodBank(new BloodBank(bankId, name, locId, phone));
 
         User u = authService.register(user, pass, UserRole.BLOOD_BANK, bankId);

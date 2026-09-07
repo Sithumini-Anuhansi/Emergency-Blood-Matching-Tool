@@ -14,6 +14,7 @@ import com.bloodnetwork.app.service.DonorResponseService;
 import com.bloodnetwork.app.service.DonorService;
 import com.bloodnetwork.app.service.EmergencyRequestService;
 import com.bloodnetwork.app.service.HospitalService;
+import com.bloodnetwork.app.service.LocationService;
 import com.bloodnetwork.app.service.NotificationService;
 import com.bloodnetwork.app.service.RequestQueueService;
 import com.bloodnetwork.app.service.StockTransactionService;
@@ -32,17 +33,24 @@ public class EmergencyBloodSystem {
         DataLoader loader = new DataLoader(context.getApplicationContext());
 
         Graph graph = loader.buildGraph();
+        LocationService locationService = new LocationService(context.getApplicationContext());
+        for (com.bloodnetwork.app.model.Location loc : loader.loadLocations()) locationService.addLocation(loc);
+        locationService.loadPersistedUpdates();
 
-        HospitalService hospitalService = new HospitalService();
+        HospitalService hospitalService = new HospitalService(context.getApplicationContext());
         for (Hospital h : loader.loadHospitals()) hospitalService.addHospital(h);
+        hospitalService.loadPersistedUpdates();
 
         BloodBankService bloodBankService = new BloodBankService(context.getApplicationContext());
         for (BloodBank bb : loader.loadBloodBanks()) bloodBankService.addBloodBank(bb);
         bloodBankService.loadPersistedUpdates();
 
         DonorService donorService = new DonorService(context.getApplicationContext());
-        for (Donor d : loader.loadDonors()) donorService.addDonor(d);
-        donorService.loadPersistedUpdates();
+        for (Donor d : loader.loadDonors()) {
+            if (donorService.findDonor(d.getId()) == null) {
+                donorService.addDonor(d);
+            }
+        }
 
         DonorMatchingService matchingService = new DonorMatchingService(donorService, graph);
         RequestQueueService queueService = new RequestQueueService(context.getApplicationContext());
@@ -57,7 +65,7 @@ public class EmergencyBloodSystem {
                 hospitalService, bloodBankService, donorService,
                 matchingService, queueService, responseService,
                 graph, notificationService, transactionService,
-                emergencyRequestService);
+                emergencyRequestService, locationService);
     }
 
     public static synchronized EmergencyBloodSystem getInstance(Context context) throws IOException {

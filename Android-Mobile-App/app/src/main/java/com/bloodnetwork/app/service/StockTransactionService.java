@@ -24,9 +24,9 @@ public class StockTransactionService {
         loadFromStorage();
     }
 
-    public StockTransaction record(String bloodBankId, String bloodGroup, int quantity, String type) {
+    public StockTransaction record(String bloodBankId, String bloodGroup, int quantity, String type, String targetName) {
         String id = "TXN" + (++counter);
-        StockTransaction t = new StockTransaction(id, bloodBankId, bloodGroup, quantity, type);
+        StockTransaction t = new StockTransaction(id, bloodBankId, bloodGroup, quantity, type, targetName);
         transactions.put(id, t);
         saveToStorage();
         return t;
@@ -54,6 +54,7 @@ public class StockTransactionService {
                 o.put("bloodGroup", t.getBloodGroup());
                 o.put("quantity", t.getQuantity());
                 o.put("type", t.getType());
+                o.put("targetName", t.getTargetName());
                 o.put("timestamp", t.getTimestamp());
                 arr.put(o);
             }
@@ -81,9 +82,16 @@ public class StockTransactionService {
                         o.getString("bloodBankId"),
                         o.getString("bloodGroup"),
                         o.getInt("quantity"),
-                        o.getString("type")
+                        o.getString("type"),
+                        o.has("targetName") ? o.getString("targetName") : null
                 );
-                // Note: assuming StockTransaction model has setTimestamp or handles it
+                if (o.has("timestamp")) {
+                    try {
+                        java.lang.reflect.Field field = StockTransaction.class.getDeclaredField("timestamp");
+                        field.setAccessible(true);
+                        field.set(t, o.getLong("timestamp"));
+                    } catch (Exception ignored) {}
+                }
                 transactions.put(t.getId(), t);
                 try {
                     int num = Integer.parseInt(t.getId().replace("TXN", ""));

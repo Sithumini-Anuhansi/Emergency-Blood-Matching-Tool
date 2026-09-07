@@ -36,7 +36,7 @@ public class DonorActivity extends AppCompatActivity {
 
     private TextView tvDonorName, tvDrawerDonorName, tvSectionTitle, txtResult;
     private TextView tvStatDonations, tvStatPendingReqs, tvStatusBadge;
-    private LinearLayout layoutDashboard, layoutRequests, layoutResult, listContainer;
+    private LinearLayout layoutDashboard, layoutResult, listContainer;
     private Switch switchAvailability;
 
     private Donor currentDonor;
@@ -58,11 +58,14 @@ public class DonorActivity extends AppCompatActivity {
             return;
         }
 
-        if (donorId != null && !donorId.isEmpty())
+        if (donorId != null && !donorId.isEmpty()) {
             currentDonor = controller.getDonorService().findDonor(donorId);
+        }
+
         if (currentDonor == null) {
-            List<Donor> all = controller.getDonorService().getAllDonors();
-            if (!all.isEmpty()) { currentDonor = all.get(0); donorId = currentDonor.getId(); }
+            Toast.makeText(this, "Donor data not found", Toast.LENGTH_LONG).show();
+            finish();
+            return;
         }
 
         drawerLayout      = findViewById(R.id.drawerLayout);
@@ -70,7 +73,6 @@ public class DonorActivity extends AppCompatActivity {
         tvDrawerDonorName = findViewById(R.id.tvDrawerDonorName);
         tvSectionTitle    = findViewById(R.id.tvSectionTitle);
         layoutDashboard   = findViewById(R.id.layoutDashboard);
-        layoutRequests    = findViewById(R.id.layoutRequests);
         layoutResult      = findViewById(R.id.layoutResult);
         listContainer     = findViewById(R.id.listContainer);
         txtResult         = findViewById(R.id.txtResult);
@@ -97,6 +99,8 @@ public class DonorActivity extends AppCompatActivity {
         // Toolbar
         findViewById(R.id.btnMenu).setOnClickListener(
                 v -> drawerLayout.openDrawer(Gravity.START));
+        findViewById(R.id.tvNotifBadge).setOnClickListener(
+                v -> showNotifications());
 
         // Drawer items
         findViewById(R.id.navDashboard).setOnClickListener(
@@ -121,8 +125,6 @@ public class DonorActivity extends AppCompatActivity {
                 v -> showPendingRequests());
 
         // Back buttons
-        findViewById(R.id.btnBackFromRequests).setOnClickListener(
-                v -> showDashboard());
         findViewById(R.id.btnBackFromResult).setOnClickListener(
                 v -> showDashboard());
 
@@ -151,7 +153,6 @@ public class DonorActivity extends AppCompatActivity {
 
     private void showDashboard() {
         layoutDashboard.setVisibility(View.VISIBLE);
-        layoutRequests.setVisibility(View.GONE);
         layoutResult.setVisibility(View.GONE);
         tvSectionTitle.setText("Home");
         refreshStats();
@@ -179,9 +180,9 @@ public class DonorActivity extends AppCompatActivity {
 
     private void showPendingRequests() {
         layoutDashboard.setVisibility(View.GONE);
-        layoutRequests.setVisibility(View.VISIBLE);
-        layoutResult.setVisibility(View.GONE);
+        layoutResult.setVisibility(View.VISIBLE);
         tvSectionTitle.setText("Pending Requests");
+        txtResult.setText("Emergency Requests");
         listContainer.removeAllViews();
 
         if (currentDonor == null) return;
@@ -287,24 +288,61 @@ public class DonorActivity extends AppCompatActivity {
     // ── Other screens ──────────────────────────────────────────────────────
 
     private void showDonationHistory() {
-        StringBuilder sb = new StringBuilder();
-        boolean found = false;
+        tvSectionTitle.setText("Donation History");
+        txtResult.setText("Your Completed Donations");
+        listContainer.removeAllViews();
+        
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault());
+        boolean found = false;
+        
         for (DonorRequest dr : controller.getQueueService().getAllRequests()) {
             if (dr.getDonorId().equals(donorId) && dr.getStatus() == RequestStatus.ACCEPTED) {
+                found = true;
                 EmergencyRequest er = controller.getEmergencyRequest(dr.getEmergencyRequestId());
                 Hospital hospital = er != null ? controller.getHospital(er.getHospitalId()) : null;
-                sb.append(dr.getId()).append("  ")
-                  .append(er != null ? er.getBloodGroup() : "?")
-                  .append("  Completed\n")
-                  .append("Hospital: ").append(hospital != null ? hospital.getName() : "?")
-                  .append("  |  ").append(er != null ? sdf.format(new Date(er.getTimestamp())) : "?")
-                  .append("\n\n");
-                found = true;
+                
+                LinearLayout card = new LinearLayout(this);
+                card.setOrientation(LinearLayout.VERTICAL);
+                card.setPadding(24, 16, 24, 16);
+                card.setBackgroundResource(R.drawable.card_bg);
+                LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                p.setMargins(0, 0, 0, 12);
+                card.setLayoutParams(p);
+
+                TextView tvTitle = new TextView(this);
+                tvTitle.setText("Donation #" + dr.getId());
+                tvTitle.setTypeface(null, android.graphics.Typeface.BOLD);
+                card.addView(tvTitle);
+
+                TextView tvDetail = new TextView(this);
+                String hospitalName = (hospital != null) ? hospital.getName() : "Unknown Hospital";
+                String bg = (er != null) ? er.getBloodGroup() : "?";
+                tvDetail.setText("Hospital: " + hospitalName + "\nBlood Group: " + bg);
+                tvDetail.setTextSize(13);
+                card.addView(tvDetail);
+
+                TextView tvTime = new TextView(this);
+                String timeStr = (er != null) ? sdf.format(new Date(er.getTimestamp())) : "N/A";
+                tvTime.setText("Date: " + timeStr);
+                tvTime.setTextSize(11);
+                tvTime.setTextColor(0xFF757575);
+                tvTime.setPadding(0, 4, 0, 0);
+                card.addView(tvTime);
+
+                listContainer.addView(card);
             }
         }
-        if (!found) sb.append("No donations yet.");
-        showTextResult("Donation History", sb.toString());
+        
+        if (!found) {
+            TextView tv = new TextView(this);
+            tv.setText("No donations yet.");
+            tv.setPadding(16, 12, 16, 12);
+            listContainer.addView(tv);
+        }
+        
+        layoutResult.setVisibility(View.VISIBLE);
+        layoutDashboard.setVisibility(View.GONE);
     }
 
     private void showProfile() {
@@ -325,7 +363,6 @@ public class DonorActivity extends AppCompatActivity {
 
     private void showNotifications() {
         layoutDashboard.setVisibility(View.GONE);
-        layoutRequests.setVisibility(View.GONE);
         layoutResult.setVisibility(View.VISIBLE);
         tvSectionTitle.setText("Notifications");
         txtResult.setText("Notification History");
@@ -383,8 +420,8 @@ public class DonorActivity extends AppCompatActivity {
     private void showTextResult(String title, String body) {
         tvSectionTitle.setText(title);
         txtResult.setText(body);
+        listContainer.removeAllViews();
         layoutResult.setVisibility(View.VISIBLE);
-        layoutRequests.setVisibility(View.GONE);
         layoutDashboard.setVisibility(View.GONE);
     }
 

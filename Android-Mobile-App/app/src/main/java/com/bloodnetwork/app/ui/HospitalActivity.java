@@ -70,14 +70,14 @@ public class HospitalActivity extends AppCompatActivity {
             return;
         }
 
-        if (hospitalId == null || hospitalId.isEmpty()) {
-            List<Hospital> all = controller.getAllHospitals();
-            if (!all.isEmpty()) {
-                currentHospital = all.get(0);
-                hospitalId = currentHospital.getId();
-            }
-        } else {
+        if (hospitalId != null && !hospitalId.isEmpty()) {
             currentHospital = controller.getHospital(hospitalId);
+        }
+
+        if (currentHospital == null) {
+            Toast.makeText(this, "Hospital data not found", Toast.LENGTH_LONG).show();
+            finish();
+            return;
         }
 
         tvHospitalName      = findViewById(R.id.tvHospitalName);

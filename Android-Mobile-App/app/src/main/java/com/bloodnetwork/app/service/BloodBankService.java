@@ -20,13 +20,16 @@ public class BloodBankService {
 
     public BloodBankService(Context context) {
         this.context = context;
+        loadPersistedUpdates();
     }
 
     public void addBloodBank(BloodBank bb) {
         bloodBanks.put(bb.getId(), bb);
+        saveUpdates();
     }
 
     public void loadPersistedUpdates() {
+        if (context == null) return;
         File file = new File(context.getFilesDir(), FILE_NAME);
         if (!file.exists()) return;
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -37,8 +40,20 @@ public class BloodBankService {
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject o = arr.getJSONObject(i);
                 String id = o.getString("id");
+                
                 BloodBank bb = bloodBanks.get(id);
-                if (bb != null) {
+                if (bb == null) {
+                    // New bank from registration
+                    bb = new BloodBank(
+                        id,
+                        o.optString("name", "Unknown"),
+                        o.optString("locationId", "L001"),
+                        o.optString("phone", "")
+                    );
+                    bloodBanks.put(id, bb);
+                }
+
+                if (o.has("stock")) {
                     JSONObject stock = o.getJSONObject("stock");
                     JSONArray groups = stock.names();
                     if (groups != null) {
@@ -55,11 +70,18 @@ public class BloodBankService {
     }
 
     private void saveUpdates() {
+        if (context == null) return;
         try {
             JSONArray arr = new JSONArray();
             for (BloodBank bb : bloodBanks.values()) {
+                // Determine if it's a dynamic update (stock change or new registration)
+                // For simplicity, we save all but let's at least ensure new banks are fully saved
                 JSONObject o = new JSONObject();
                 o.put("id", bb.getId());
+                o.put("name", bb.getName());
+                o.put("locationId", bb.getLocationId());
+                o.put("phone", bb.getPhone());
+
                 JSONObject stock = new JSONObject();
                 for (Map.Entry<String, Integer> entry : bb.getAllStock().entrySet()) {
                     stock.put(entry.getKey(), entry.getValue());

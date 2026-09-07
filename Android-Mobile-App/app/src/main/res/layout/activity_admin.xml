@@ -76,10 +76,13 @@
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                         android:orientation="horizontal" android:layout_marginBottom="10dp">
 
-                        <LinearLayout android:layout_width="0dp" android:layout_height="80dp"
+                        <LinearLayout android:id="@+id/cardUsers"
+                            android:layout_width="0dp" android:layout_height="80dp"
                             android:layout_weight="1" android:orientation="vertical"
                             android:background="#4A148C" android:gravity="center"
-                            android:layout_marginEnd="5dp">
+                            android:layout_marginEnd="5dp"
+                            android:clickable="true" android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground">
                             <TextView android:id="@+id/tvStatUsers"
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                                 android:text="0" android:textColor="#FFFFFF"
@@ -88,10 +91,13 @@
                                 android:text="Users" android:textColor="#E1BEE7" android:textSize="11sp"/>
                         </LinearLayout>
 
-                        <LinearLayout android:layout_width="0dp" android:layout_height="80dp"
+                        <LinearLayout android:id="@+id/cardPending"
+                            android:layout_width="0dp" android:layout_height="80dp"
                             android:layout_weight="1" android:orientation="vertical"
                             android:background="#C62828" android:gravity="center"
-                            android:layout_marginStart="5dp">
+                            android:layout_marginStart="5dp"
+                            android:clickable="true" android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground">
                             <TextView android:id="@+id/tvStatPending"
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                                 android:text="0" android:textColor="#FFFFFF"
@@ -104,10 +110,13 @@
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                         android:orientation="horizontal" android:layout_marginBottom="20dp">
 
-                        <LinearLayout android:layout_width="0dp" android:layout_height="80dp"
+                        <LinearLayout android:id="@+id/cardRequests"
+                            android:layout_width="0dp" android:layout_height="80dp"
                             android:layout_weight="1" android:orientation="vertical"
                             android:background="#1565C0" android:gravity="center"
-                            android:layout_marginEnd="5dp">
+                            android:layout_marginEnd="5dp"
+                            android:clickable="true" android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground">
                             <TextView android:id="@+id/tvStatRequests"
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                                 android:text="0" android:textColor="#FFFFFF"
@@ -116,10 +125,13 @@
                                 android:text="Requests" android:textColor="#BBDEFB" android:textSize="11sp"/>
                         </LinearLayout>
 
-                        <LinearLayout android:layout_width="0dp" android:layout_height="80dp"
+                        <LinearLayout android:id="@+id/cardStock"
+                            android:layout_width="0dp" android:layout_height="80dp"
                             android:layout_weight="1" android:orientation="vertical"
                             android:background="#2E7D32" android:gravity="center"
-                            android:layout_marginStart="5dp">
+                            android:layout_marginStart="5dp"
+                            android:clickable="true" android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground">
                             <TextView android:id="@+id/tvStatStock"
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                                 android:text="0" android:textColor="#FFFFFF"

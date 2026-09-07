@@ -25,11 +25,27 @@ public class NotificationService {
     }
 
     public AppNotification send(String recipientId, String title, String message) {
+        return send(recipientId, title, message, null);
+    }
+
+    public AppNotification send(String recipientId, String title, String message, String requestId) {
         String id = "NOTIF" + (++counter);
-        AppNotification n = new AppNotification(id, recipientId, title, message);
+        AppNotification n = new AppNotification(id, recipientId, title, message, requestId);
         notifications.put(id, n);
         saveToStorage();
         return n;
+    }
+
+    public void expireNotificationsForRequest(String requestId, String message) {
+        boolean changed = false;
+        for (AppNotification n : notifications.values()) {
+            if (requestId.equals(n.getRequestId()) && !n.getTitle().contains("✅") && !n.getTitle().contains("Expired")) {
+                n.setTitle("Expired: " + n.getTitle());
+                n.setMessage(message);
+                changed = true;
+            }
+        }
+        if (changed) saveToStorage();
     }
 
     public List<AppNotification> getForRecipient(String recipientId) {
@@ -76,6 +92,7 @@ public class NotificationService {
                 o.put("recipientId", n.getRecipientId());
                 o.put("title", n.getTitle());
                 o.put("message", n.getMessage());
+                o.put("requestId", n.getRequestId());
                 o.put("timestamp", n.getTimestamp());
                 o.put("read", n.isRead());
                 arr.put(o);
@@ -103,7 +120,8 @@ public class NotificationService {
                         o.getString("id"),
                         o.getString("recipientId"),
                         o.getString("title"),
-                        o.getString("message")
+                        o.getString("message"),
+                        o.has("requestId") ? o.getString("requestId") : null
                 );
                 if (o.has("timestamp")) {
                     try {

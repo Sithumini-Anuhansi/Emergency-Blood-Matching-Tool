@@ -102,6 +102,12 @@ public class AdminActivity extends AppCompatActivity {
         findViewById(R.id.btnBackToDashboard).setOnClickListener(
                 v -> showDashboard());
 
+        // Stat Card click listeners
+        findViewById(R.id.cardUsers).setOnClickListener(v -> showAllUsers());
+        findViewById(R.id.cardPending).setOnClickListener(v -> showPendingUsers());
+        findViewById(R.id.cardRequests).setOnClickListener(v -> showRequests());
+        findViewById(R.id.cardStock).setOnClickListener(v -> showBloodBanks());
+
         showDashboard();
     }
 
@@ -307,8 +313,14 @@ public class AdminActivity extends AppCompatActivity {
             for (int i = notifs.size() - 1; i >= 0; i--) {
                 AppNotification n = notifs.get(i);
                 String timeStr = sdf.format(new Date(n.getTimestamp()));
-                addInfoCard((n.isRead() ? "" : "[NEW] ") + n.getTitle(),
+                View card = addInfoCard((n.isRead() ? "" : "[NEW] ") + n.getTitle(),
                         n.getMessage() + "\n" + timeStr);
+                
+                if (n.getTitle().contains("New Registration")) {
+                    card.setOnClickListener(v -> showPendingUsers());
+                    // Visual cue for clickability
+                    card.setBackgroundResource(R.drawable.card_bg_clickable);
+                }
             }
             controller.markNotificationsRead("ADMIN");
         }
@@ -409,7 +421,7 @@ public class AdminActivity extends AppCompatActivity {
         listContainer.addView(tv);
     }
 
-    private void addInfoCard(String title, String detail) {
+    private View addInfoCard(String title, String detail) {
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
         card.setPadding(20, 14, 20, 14);
@@ -434,6 +446,7 @@ public class AdminActivity extends AppCompatActivity {
             card.addView(tvDetail);
         }
         listContainer.addView(card);
+        return card;
     }
 
     private void addSectionHeader(String text) {
