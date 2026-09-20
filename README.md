@@ -310,3 +310,7 @@ Assessment requirements included:
 This project was developed for educational purposes as part of a university coursework submission.
 
 ---
+
+<div align="right">
+<img src="https://visitor-badge.laobi.icu/badge?page_id=Sithumini-Anuhansi.Emergency-Blood-Matching-Tool&left_text=Views"/>
+</div>
